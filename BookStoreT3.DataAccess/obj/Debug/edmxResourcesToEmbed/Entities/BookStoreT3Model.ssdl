@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookStoreT3Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BookStoreT3ModelStoreContainer">
+    <EntitySet Name="Books" EntityType="BookStoreT3Model.Store.Books" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypeOfBooks" EntityType="BookStoreT3Model.Store.TypeOfBooks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="BookStoreT3Model.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Orders" EntityType="BookStoreT3Model.Store.Orders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ExtraInfoes" EntityType="BookStoreT3Model.Store.ExtraInfoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderBook" EntityType="BookStoreT3Model.Store.OrderBook" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TypeOfBookBook" Association="BookStoreT3Model.Store.TypeOfBookBook">
+      <End Role="TypeOfBook" EntitySet="TypeOfBooks" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="ExtraInfoBook" Association="BookStoreT3Model.Store.ExtraInfoBook">
+      <End Role="ExtraInfo" EntitySet="ExtraInfoes" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderBook_Order" Association="BookStoreT3Model.Store.FK_OrderBook_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderBook" EntitySet="OrderBook" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderBook_Book" Association="BookStoreT3Model.Store.FK_OrderBook_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="OrderBook" EntitySet="OrderBook" />
+    </AssociationSet>
+    <AssociationSet Name="UserOrder" Association="BookStoreT3Model.Store.UserOrder">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Books">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Value" Type="float" Nullable="false" />
+    <Property Name="TypeOfBookId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypeOfBooks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TotalValue" Type="float" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExtraInfoes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Isbn10" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Isbn13" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Year" Type="int" Nullable="true" />
+    <Property Name="Book_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderBook">
+    <Key>
+      <PropertyRef Name="Orders_Id" />
+      <PropertyRef Name="Books_Id" />
+    </Key>
+    <Property Name="Orders_Id" Type="int" Nullable="false" />
+    <Property Name="Books_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="TypeOfBookBook">
+    <End Role="TypeOfBook" Type="BookStoreT3Model.Store.TypeOfBooks" Multiplicity="1" />
+    <End Role="Book" Type="BookStoreT3Model.Store.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfBook">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="TypeOfBookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ExtraInfoBook">
+    <End Role="ExtraInfo" Type="BookStoreT3Model.Store.ExtraInfoes" Multiplicity="*" />
+    <End Role="Book" Type="BookStoreT3Model.Store.Books" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ExtraInfo">
+        <PropertyRef Name="Book_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserOrder">
+    <End Role="User" Type="BookStoreT3Model.Store.Users" Multiplicity="1" />
+    <End Role="Order" Type="BookStoreT3Model.Store.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderBook_Order">
+    <End Role="Order" Type="BookStoreT3Model.Store.Orders" Multiplicity="1" />
+    <End Role="OrderBook" Type="BookStoreT3Model.Store.OrderBook" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBook">
+        <PropertyRef Name="Orders_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderBook_Book">
+    <End Role="OrderBook" Type="BookStoreT3Model.Store.OrderBook" Multiplicity="*" />
+    <End Role="Book" Type="BookStoreT3Model.Store.Books" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderBook">
+        <PropertyRef Name="Books_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

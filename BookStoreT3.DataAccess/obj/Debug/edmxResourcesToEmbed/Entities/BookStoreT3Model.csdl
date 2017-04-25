@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BookStoreT3Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="BookStoreT3ModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Books" EntityType="BookStoreT3Model.Book" />
+    <EntitySet Name="TypeOfBooks" EntityType="BookStoreT3Model.TypeOfBook" />
+    <EntitySet Name="Users" EntityType="BookStoreT3Model.User" />
+    <EntitySet Name="Orders" EntityType="BookStoreT3Model.Order" />
+    <EntitySet Name="ExtraInfoes" EntityType="BookStoreT3Model.ExtraInfo" />
+    <AssociationSet Name="TypeOfBookBook" Association="BookStoreT3Model.TypeOfBookBook">
+      <End Role="TypeOfBook" EntitySet="TypeOfBooks" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="ExtraInfoBook" Association="BookStoreT3Model.ExtraInfoBook">
+      <End Role="ExtraInfo" EntitySet="ExtraInfoes" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="OrderBook" Association="BookStoreT3Model.OrderBook">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="UserOrder" Association="BookStoreT3Model.UserOrder">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Author" Type="String" Nullable="false" />
+    <Property Name="Value" Type="Double" Nullable="false" />
+    <NavigationProperty Name="TypeOfBook" Relationship="BookStoreT3Model.TypeOfBookBook" FromRole="Book" ToRole="TypeOfBook" />
+    <Property Name="TypeOfBookId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ExtraInfo" Relationship="BookStoreT3Model.ExtraInfoBook" FromRole="Book" ToRole="ExtraInfo" />
+    <NavigationProperty Name="Orders" Relationship="BookStoreT3Model.OrderBook" FromRole="Book" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="TypeOfBook">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="BookStoreT3Model.TypeOfBookBook" FromRole="TypeOfBook" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" Nullable="false" />
+    <Property Name="LastName" Type="String" Nullable="false" />
+    <NavigationProperty Name="Orders" Relationship="BookStoreT3Model.UserOrder" FromRole="User" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TotalValue" Type="Double" Nullable="false" />
+    <Property Name="Comment" Type="String" Nullable="true" />
+    <NavigationProperty Name="Books" Relationship="BookStoreT3Model.OrderBook" FromRole="Order" ToRole="Book" />
+    <NavigationProperty Name="User" Relationship="BookStoreT3Model.UserOrder" FromRole="Order" ToRole="User" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExtraInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Isbn10" Type="String" Nullable="true" />
+    <Property Name="Isbn13" Type="String" Nullable="true" />
+    <Property Name="Year" Type="Int32" Nullable="true" />
+    <NavigationProperty Name="Book" Relationship="BookStoreT3Model.ExtraInfoBook" FromRole="ExtraInfo" ToRole="Book" />
+  </EntityType>
+  <Association Name="TypeOfBookBook">
+    <End Type="BookStoreT3Model.TypeOfBook" Role="TypeOfBook" Multiplicity="1" />
+    <End Type="BookStoreT3Model.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfBook">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="TypeOfBookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ExtraInfoBook">
+    <End Type="BookStoreT3Model.ExtraInfo" Role="ExtraInfo" Multiplicity="0..1" />
+    <End Type="BookStoreT3Model.Book" Role="Book" Multiplicity="1" />
+  </Association>
+  <Association Name="OrderBook">
+    <End Type="BookStoreT3Model.Order" Role="Order" Multiplicity="*" />
+    <End Type="BookStoreT3Model.Book" Role="Book" Multiplicity="*" />
+  </Association>
+  <Association Name="UserOrder">
+    <End Type="BookStoreT3Model.User" Role="User" Multiplicity="1" />
+    <End Type="BookStoreT3Model.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

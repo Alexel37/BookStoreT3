@@ -1,0 +1,7 @@
+D:\Projects\Logos\BookStoreT3\BookStoreT3.DataModel\bin\Debug\BookStoreT3.DataModel.dll
+D:\Projects\Logos\BookStoreT3\BookStoreT3.DataModel\bin\Debug\BookStoreT3.DataModel.pdb
+D:\Projects\Logos\BookStoreT3\BookStoreT3.DataModel\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\Logos\BookStoreT3\BookStoreT3.DataModel\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\Logos\BookStoreT3\BookStoreT3.DataModel\obj\Debug\BookStoreT3.DataModel.csprojResolveAssemblyReference.cache
+D:\Projects\Logos\BookStoreT3\BookStoreT3.DataModel\obj\Debug\BookStoreT3.DataModel.dll
+D:\Projects\Logos\BookStoreT3\BookStoreT3.DataModel\obj\Debug\BookStoreT3.DataModel.pdb
